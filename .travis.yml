@@ -3,20 +3,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t sreddy/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t sujankota/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true sreddy/react-test npm test -- --coverage
+  - docker run -e CI=true sujankota/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t sreddy/multi-client ./client
-  - docker build -t sreddy/multi-nginx ./nginx
-  - docker build -t sreddy/multi-server ./server
-  - docker build -t sreddy/multi-worker ./worker
+  - docker build -t sujankota/multi-client ./client
+  - docker build -t sujankota/multi-nginx ./nginx
+  - docker build -t sujankota/multi-server ./server
+  - docker build -t sujankota/multi-worker ./worker
   # Log in to docker CI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push sreddy/multi-client
-  - docker push sreddy/multi-nginx
-  - docker push sreddy/multi-server
-  - docker push sreddy/multi-worker
+  - docker push sujankota/multi-client
+  - docker push sujankota/multi-nginx
+  - docker push sujankota/multi-server
+  - docker push sujankota/multi-worker
 
