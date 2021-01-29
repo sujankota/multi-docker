@@ -20,4 +20,3 @@ after_success:
   - docker push sreddy/multi-server
   - docker push sreddy/multi-worker
 
-  # Take those images and push to docker lub
