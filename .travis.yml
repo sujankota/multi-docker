@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t sreddy/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run sreddy/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t sreddy/multi-client ./client
+  - docker build -t sreddy/multi-nginx ./nginx
+  - docker build -t sreddy/multi-server ./server
+  - docker build -t sreddy/multi-worker ./worker
+  # Log in to docker CI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push sreddy/multi-client
+  - docker push sreddy/multi-nginx
+  - docker push sreddy/multi-server
+  - docker push sreddy/multi-worker
+
+  # Take those images and push to docker lub
